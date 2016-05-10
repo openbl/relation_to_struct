@@ -21,9 +21,9 @@ when 'postgresql'
   ActiveRecord::Tasks::DatabaseTasks.drop_current
   ActiveRecord::Tasks::DatabaseTasks.create_current
   ActiveRecord::Tasks::DatabaseTasks.load_schema_current(:ruby, File.expand_path('../schema.rb', __FILE__))
-  ActiveRecord::Base.establish_connection(env)
+  ActiveRecord::Base.establish_connection(env.to_sym)
 when 'sqlite'
-  ActiveRecord::Base.establish_connection(env)
+  ActiveRecord::Base.establish_connection(env.to_sym)
   require_relative 'schema'
 else
   raise ArgumentError, 'Unrecognized ENV["DATABASE"] argument.'

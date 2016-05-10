@@ -29,6 +29,17 @@ module RelationToStruct::ActiveRecordBaseExtension
       result.cast_values()
     end
   end
+
+  if ActiveRecord.version >= Gem::Version.new("5.0.0.rc1")
+    included do
+      class << self
+        def sanitize_sql_with_ignored_table_name(condition, table_name = nil)
+          sanitize_sql_without_ignored_table_name(condition)
+        end
+        alias_method_chain :sanitize_sql, :ignored_table_name
+      end
+    end
+  end
 end
 
 ::ActiveRecord::Base.send(:include, RelationToStruct::ActiveRecordBaseExtension)
